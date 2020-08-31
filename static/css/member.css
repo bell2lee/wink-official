@@ -5,6 +5,14 @@
     grid-column-gap: 50px;
 }
 
+.professor {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
+
+}
+
 .member_section .card_section {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
@@ -39,3 +47,13 @@
 
 
 .human .human_container .information .btn {padding:0 5px; font-size:24px; margin-right:10px;}
+
+
+@media (max-width: 768px)  {
+    .member_section,
+    .member_section .card_section,
+    .professor
+    {
+        grid-template-columns: repeat(1, 1fr)
+    }
+}

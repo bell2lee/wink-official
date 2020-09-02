@@ -2,9 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 
 from .forms import CommentForm, DocumentForm
-from .models import Board, Document, Comment
+from .models import Board, Document, Comment, POSITION_CHOICE
 
 # Create your views here.
+
+
+def errorMsg(request, msg):
+    return render(request, 'error.html', {'msg': msg})
+
 
 def getBoard(board_name):
     # 게시판 정보 가져오기. 만약 게시판이 존재하지 않다면 404에러를 반환함
@@ -33,16 +38,35 @@ def getComments(document_id):
 
 # 게시판 메인페이지
 def index(request):
-
     return render(request, 'board_list.html')
 
 
+def deleteDocument(request, board_name, document_id):
+    post = Document.objects.get(id=document_id)
+    if post.owner == request.user:
+        post.delete()
+
+    return redirect("/board/" + board_name)
+
+
 def board(request, board_name):
-    print(board_name) # params 가져오기 -> http://127.0.0.1/test_board
     # 출력 결과 test_board
     documents = getBoard(board_name)
     documents['title'] = documents['board']['information']['name']
-    return render(request, 'board_skin/board.html', documents)
+    permisstion_position = [x[0] for x in POSITION_CHOICE].index(documents['board']['information']['permission'])
+
+    try:
+        if documents['board']['information']['permission'] != 0 and\
+                request.user.position < documents['board']['information']['permission']:
+            return errorMsg(request,
+                            '본 페이지는 ' + POSITION_CHOICE[permisstion_position][1] + ' 이상이 접근할 수 있습니다.')
+    except AttributeError:
+        return errorMsg(request,
+                        '본 페이지는 ' + POSITION_CHOICE[permisstion_position][1] + ' 이상이 접근할 수 있습니다.')
+
+    board_template = ['board_skin/board.html', 'board_skin/gallery_board.html']
+
+    return render(request, board_template[documents['board']['information']['skin']], documents)
 
 
 # 글쓰기

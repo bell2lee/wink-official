@@ -33,7 +33,7 @@
 </head>
 <body>
     <div class="block_ie">
-        <h1>본 웹 사이트는 익스플로러 브라우저를 지원하지 않습니다. 크롬, 파이어폭스, 사파리 등 최신 브라우저를 통해 보안을 유지하세요.</h1>
+        <h1>윙크 웹 사이트는 익스플로러 브라우저를 지원하지 않습니다. 크롬, 파이어폭스, 사파리 등 최신 브라우저를 통해 보안을 유지하세요.</h1>
     </div>
     <header id="main_header">
         <div class="container">
@@ -49,8 +49,8 @@
             </div>
             <nav id="main_menu">
                 <ul>
-                    <li class="active"><a href="">WINK</a></li>
-                    <li class="active"><a href="{% url 'members' %}">부원소개</a></li>
+                    <li><a href="/">동아리 소개</a></li>
+                    <li><a href="{% url 'members' %}">동아리 구성원</a></li>
                     <li><a href="{% url 'board' board_name='project' %}">프로젝트</a></li>
                     <li><a href="{% url 'board' board_name='study' %}">스터디</a></li>
                     <li><a href="{% url 'board' board_name='recruitment' %}">모집공고</a></li>
@@ -89,6 +89,7 @@
             </div>
         </div>
     </footer>
+    <div class="easter"></div>
 
     <script src="/static/js/time.js"></script>
     <script src="/static/js/emoji.js"></script>
